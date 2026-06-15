@@ -174,10 +174,6 @@ class GitHubAnalyzer:
         if len(repos) < 5:
             recommendations.append("Create more repositories to showcase your skills")
 
-        repos_without_readme = [repo for repo in repos if not self._has_readme(user_data["login"], repo.name)]
-        if repos_without_readme:
-            recommendations.append("Add README files to your repositories")
-
         if not any(repo.stars > 0 for repo in repos):
             recommendations.append("Add interesting content to attract stars")
 
@@ -189,11 +185,4 @@ class GitHubAnalyzer:
             now = datetime.now(date.tzinfo)
             return (now - date).days <= 30
         except (ValueError, TypeError):
-            return False
-
-    def _has_readme(self, owner: str, repo: str) -> bool:
-        try:
-            self.api._request(f"repos/{owner}/{repo}/readme")
-            return True
-        except requests.HTTPError:
             return False

@@ -5,7 +5,7 @@ from io import StringIO
 import pytest
 from rich.console import Console
 
-from github_analytics.analyzer import ProfileAnalysis, ProfileInfo, RepoInfo
+from github_analytics.analyzer import ProfileAnalysis, UserProfile, RepoInfo
 from github_analytics.visualizer import Visualizer
 
 
@@ -16,7 +16,7 @@ def visualizer():
 
 @pytest.fixture
 def sample_analysis():
-    profile = ProfileInfo(
+    profile = UserProfile(
         username="testuser",
         name="Test User",
         bio="Test bio",
