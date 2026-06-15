@@ -2,6 +2,7 @@
 
 import argparse
 import sys
+from pathlib import Path
 
 from .analyzer import GitHubAnalyzer
 from .github_api import GitHubAPI
@@ -26,7 +27,9 @@ Examples:
 
     user_parser = subparsers.add_parser("user", help="Analyze a GitHub user")
     user_parser.add_argument("username", help="GitHub username to analyze")
-    user_parser.add_argument("--detailed", "-d", action="store_true", help="Show detailed analysis")
+    user_parser.add_argument(
+        "--detailed", "-d", action="store_true", help="Show detailed analysis"
+    )
     user_parser.add_argument("--export", "-e", help="Export report to Markdown file")
 
     repo_parser = subparsers.add_parser("repo", help="Analyze a GitHub repository")
@@ -50,14 +53,19 @@ Examples:
 
             if args.export:
                 report = reporter.generate_markdown(analysis)
-                with open(args.export, "w", encoding="utf-8") as f:
-                    f.write(report)
-                visualizer.console.print(f"\n[green]Report exported to {args.export}[/green]")
+                Path(args.export).write_text(report, encoding="utf-8")
+                visualizer.console.print(
+                    f"\n[green]Report exported to {args.export}[/green]"
+                )
 
         elif args.command == "repo":
             owner, repo = args.repository.split("/")
-            visualizer.console.print(f"[bold]Analyzing repository: {owner}/{repo}[/bold]")
-            visualizer.console.print("[yellow]Repository analysis coming soon![/yellow]")
+            visualizer.console.print(
+                f"[bold]Analyzing repository: {owner}/{repo}[/bold]"
+            )
+            visualizer.console.print(
+                "[yellow]Repository analysis coming soon![/yellow]"
+            )
 
     except Exception as e:
         visualizer.display_error(str(e))

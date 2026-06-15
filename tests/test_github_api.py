@@ -1,6 +1,5 @@
 """Tests for GitHub API client."""
 
-import pytest
 import responses
 
 from github_analytics.github_api import GitHubAPI

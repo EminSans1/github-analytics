@@ -26,11 +26,14 @@ class GitHubAPI:
     def get_user(self, username: str) -> dict[str, Any]:
         return self._request(f"users/{username}")
 
-    def get_user_repos(self, username: str, per_page: int = 100) -> list[dict[str, Any]]:
+    def get_user_repos(
+        self, username: str, per_page: int = 100
+    ) -> list[dict[str, Any]]:
         repos = []
         page = 1
         while True:
-            data = self._request(f"users/{username}/repos?per_page={per_page}&page={page}")
+            endpoint = f"users/{username}/repos?per_page={per_page}&page={page}"
+            data = self._request(endpoint)
             if not data:
                 break
             repos.extend(data)
@@ -42,10 +45,14 @@ class GitHubAPI:
     def get_repo_languages(self, owner: str, repo: str) -> dict[str, int]:
         return self._request(f"repos/{owner}/{repo}/languages")
 
-    def get_repo_commits(self, owner: str, repo: str, per_page: int = 100) -> list[dict[str, Any]]:
+    def get_repo_commits(
+        self, owner: str, repo: str, per_page: int = 100
+    ) -> list[dict[str, Any]]:
         return self._request(f"repos/{owner}/{repo}/commits?per_page={per_page}")
 
-    def get_user_events(self, username: str, per_page: int = 100) -> list[dict[str, Any]]:
+    def get_user_events(
+        self, username: str, per_page: int = 100
+    ) -> list[dict[str, Any]]:
         return self._request(f"users/{username}/events?per_page={per_page}")
 
     def get_rate_limit(self) -> dict[str, Any]:

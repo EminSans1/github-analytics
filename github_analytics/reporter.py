@@ -1,6 +1,6 @@
 """Report generation for GitHub analytics data."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from .analyzer import ProfileAnalysis
 
@@ -11,7 +11,8 @@ class Reporter:
 
         lines.append(f"# GitHub Profile Analysis: {analysis.profile.username}")
         lines.append("")
-        lines.append(f"*Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*")
+        now = datetime.now(timezone.utc)
+        lines.append(f"*Generated on {now.strftime('%Y-%m-%d %H:%M:%S')}*")
         lines.append("")
 
         lines.append("## Profile Information")
@@ -70,7 +71,10 @@ class Reporter:
             desc = (repo.description or "No description")[:50]
             if len(repo.description or "") > 50:
                 desc += "..."
-            lines.append(f"| {repo.name} | {desc} | {repo.language or 'N/A'} | {repo.stars} | {repo.forks} |")
+            lang = repo.language or 'N/A'
+            lines.append(
+                f"| {repo.name} | {desc} | {lang} | {repo.stars} | {repo.forks} |"
+            )
         lines.append("")
 
         lines.append("---")

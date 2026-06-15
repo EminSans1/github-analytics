@@ -3,7 +3,6 @@
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from rich.text import Text
 
 from .analyzer import ProfileAnalysis
 
@@ -51,7 +50,10 @@ class Visualizer:
         table.add_row("Total Forks", str(analysis.total_forks))
 
         if analysis.languages:
-            langs = ", ".join(f"{lang} ({count})" for lang, count in analysis.languages.items())
+            lang_parts = [
+                f"{lang} ({count})" for lang, count in analysis.languages.items()
+            ]
+            langs = ", ".join(lang_parts)
             table.add_row("Languages", langs)
 
         self.console.print(table)
@@ -76,11 +78,29 @@ class Visualizer:
         table.add_column("Score", style="cyan")
         table.add_column("Value")
 
-        activity_color = "green" if analysis.activity_score >= 70 else "yellow" if analysis.activity_score >= 40 else "red"
-        completeness_color = "green" if analysis.completeness_score >= 70 else "yellow" if analysis.completeness_score >= 40 else "red"
+        if analysis.activity_score >= 70:
+            activity_color = "green"
+        elif analysis.activity_score >= 40:
+            activity_color = "yellow"
+        else:
+            activity_color = "red"
 
-        table.add_row("Activity Score", f"[{activity_color}]{analysis.activity_score}/100[/{activity_color}]")
-        table.add_row("Profile Completeness", f"[{completeness_color}]{analysis.completeness_score}/100[/{completeness_color}]")
+        if analysis.completeness_score >= 70:
+            completeness_color = "green"
+        elif analysis.completeness_score >= 40:
+            completeness_color = "yellow"
+        else:
+            completeness_color = "red"
+
+        activity_str = (
+            f"[{activity_color}]{analysis.activity_score}/100[/{activity_color}]"
+        )
+        completeness_str = (
+            f"[{completeness_color}]{analysis.completeness_score}/100"
+            f"[/{completeness_color}]"
+        )
+        table.add_row("Activity Score", activity_str)
+        table.add_row("Profile Completeness", completeness_str)
 
         self.console.print(table)
 

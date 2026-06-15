@@ -5,8 +5,6 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
 
-import requests
-
 from .github_api import GitHubAPI
 
 
@@ -121,7 +119,9 @@ class GitHubAnalyzer:
                 languages[repo["language"]] += 1
         return dict(languages.most_common())
 
-    def _calculate_activity_score(self, repos: list[RepoInfo], user_data: dict[str, Any]) -> int:
+    def _calculate_activity_score(
+        self, repos: list[RepoInfo], user_data: dict[str, Any]
+    ) -> int:
         score = 0
 
         if repos:
@@ -146,9 +146,9 @@ class GitHubAnalyzer:
 
     def _calculate_completeness_score(self, user_data: dict[str, Any]) -> int:
         score = 0
-        fields = ["name", "bio", "location", "company", "blog", "email"]
-        for field in fields:
-            if user_data.get(field):
+        profile_fields = ["name", "bio", "location", "company", "blog", "email"]
+        for profile_field in profile_fields:
+            if user_data.get(profile_field):
                 score += 15
 
         if user_data.get("avatar_url"):
@@ -156,7 +156,9 @@ class GitHubAnalyzer:
 
         return min(score, 100)
 
-    def _generate_recommendations(self, user_data: dict[str, Any], repos: list[RepoInfo]) -> list[str]:
+    def _generate_recommendations(
+        self, user_data: dict[str, Any], repos: list[RepoInfo]
+    ) -> list[str]:
         recommendations = []
 
         if not user_data.get("bio"):

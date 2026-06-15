@@ -5,7 +5,7 @@ from io import StringIO
 import pytest
 from rich.console import Console
 
-from github_analytics.analyzer import ProfileAnalysis, UserProfile, RepoInfo
+from github_analytics.analyzer import ProfileAnalysis, RepoInfo, UserProfile
 from github_analytics.visualizer import Visualizer
 
 
