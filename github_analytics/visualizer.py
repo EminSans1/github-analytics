@@ -70,7 +70,7 @@ class Visualizer:
         for lang, count in analysis.languages.items():
             percentage = (count / total) * 100
             bar_length = int(percentage / 2)
-            bar = "█" * bar_length
+            bar = "#" * bar_length
             table.add_row(lang, str(count), f"{bar} {percentage:.1f}%")
 
         self.console.print(table)
