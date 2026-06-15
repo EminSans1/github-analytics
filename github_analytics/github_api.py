@@ -1,5 +1,7 @@
 """GitHub API client for fetching user and repository data."""
 
+from __future__ import annotations
+
 import os
 from typing import Any, Optional
 

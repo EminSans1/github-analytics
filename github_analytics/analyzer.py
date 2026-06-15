@@ -1,5 +1,7 @@
 """Core analysis logic for GitHub profiles and repositories."""
 
+from __future__ import annotations
+
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime
