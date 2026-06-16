@@ -61,7 +61,9 @@ Examples:
                 )
 
         elif args.command == "repo":
-            owner, repo = args.repository.split("/")
+            if "/" not in args.repository:
+                raise ValueError("Repository must be in owner/repo format (e.g. octocat/Hello-World)")
+            owner, repo = args.repository.split("/", 1)
             visualizer.console.print(
                 f"[bold]Analyzing repository: {owner}/{repo}[/bold]"
             )
